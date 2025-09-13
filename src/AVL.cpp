@@ -31,6 +31,10 @@ void AVL::helperInorder(Node *helpRoot) {
     }
 }
 
+bool AVL::insert(const std::string &name, const std::string& id) {
+    return false;
+}
+
 void AVL::inorder() {
     helperInorder(this->root);
 }

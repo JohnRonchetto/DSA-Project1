@@ -4,8 +4,13 @@
 
 #include "AVL.h"
 
+// for now just virifyCommand() header
+#include "helpers.h"
+
 using namespace std;
 
+
+// probably have more like a verify command -> 3 arguments
 string verifyNextWord(istringstream& in) {
 
 	string word;
