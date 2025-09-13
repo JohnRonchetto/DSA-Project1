@@ -7,9 +7,23 @@
 
 
 class AVL {
+private:
+    struct Node {
+        int val;
+        Node *left;
+        Node *right;
+        Node(int x) : val(x), left(nullptr), right(nullptr) {}
+    };
+
+    Node* root = nullptr;
+    AVL::Node* helperInsert(Node* helpRoot, int key);
+    void helperInorder(Node* helpRoot);
+
+
 
 public:
-    bool printTree();
+    void inorder();
+    void insert(int key);
 };
 
 
