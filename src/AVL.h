@@ -1,39 +1,42 @@
-//
-// Created by john4 on 9/12/2025.
-//
+
 
 #ifndef PROJECT1_AVL_H
 #define PROJECT1_AVL_H
+#include "Student.h"
 #include <string>
+#include <vector>
 
 
 class AVL {
 private:
     struct Node {
-        int val;
-        Node *left;
-        Node *right;
-        Node(int x) : val(x), left(nullptr), right(nullptr) {}
+        Student data;
+        Node* left;
+        Node* right;
+        int height;
+
+        Node(const Student& s): data(s), left(nullptr), right(nullptr), height(0) {}
     };
 
     Node* root = nullptr;
-    AVL::Node* helperInsert(Node* helpRoot, int key);
-    void helperInorder(Node* helpRoot);
 
-
-
-
-
-
+    // rotations
+    Node* rotateRight(Node* x);     // LL case
+    Node* rotateLeft(Node* x);      // RR case
+    Node* rotateLeftRight(Node* x); // LR case
+    Node* rotateRightLeft(Node* x); // RL case
 
 public:
-    void inorder();
-    void insert(int key);
+    // add later
+    AVL() = default;
+    ~AVL() = default;
 
-    // This function will test name and UFID
-    // if valid insert in tree and return true
-    // else don't insert and return false
-    bool insert(const std::string& name, const std::string& id);
+    // this will insert, and rotate as needed
+    void insert(const Student& s);
+
+    // traversal
+    std::vector<std::string> inorder() const;
+
 };
 
 

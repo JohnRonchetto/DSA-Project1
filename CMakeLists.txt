@@ -24,7 +24,9 @@ add_executable(Main
         src/AVL.cpp
         src/AVL.h
         src/helpers.h
-        src/helpers.cpp # your main file
+        src/helpers.cpp
+        src/Student.cpp
+        src/Student.h # your main file
         # add your own header files below - should be automatically added in CLion
         # example (can also separate with newlines):
         # src/AVL.h src/AVL.cpp
@@ -36,7 +38,9 @@ add_executable(Tests
         src/AVL.cpp
         src/AVL.h
         src/helpers.h
-        src/helpers.cpp # your test file
+        src/helpers.cpp
+        src/Student.cpp
+        src/Student.h # your test file
         # add your own header files below - should be automatically added in CLion
         # example (can also separate with newlines):
         # src/AVL.h src/AVL.cpp

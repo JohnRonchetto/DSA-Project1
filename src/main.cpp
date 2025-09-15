@@ -6,7 +6,6 @@
 
 // for now just virifyCommand() header
 #include "helpers.h"
-
 using namespace std;
 
 

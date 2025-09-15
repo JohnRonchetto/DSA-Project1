@@ -4,7 +4,6 @@
 #include "AVL.h"
 #include "helpers.h"
 
-
 using namespace std;
 
 TEST_CASE("Validate commands", "[Input]") {
@@ -31,8 +30,82 @@ TEST_CASE("Validate commands", "[Input]") {
 	REQUIRE_FALSE(verifyCommand( "removeInorder john" ) );
 }
 
-// TEST_CASE("", "[]") {
-// }
+TEST_CASE("Insert Object test", "[Insert]") {
+
+	AVL tree;
+	Student s("John" , 12345678);
+	vector<std::string> expected {"John"};
+
+	tree.insert(s);
+
+	vector<std::string> inTree = tree.inorder();
+	REQUIRE(inTree == expected);
+}
+
+TEST_CASE("LL case", "[rotate right]") {
+
+	// R rotate
+	AVL tree;
+	Student S1("A", 12345678);
+	Student S2("B", 23456789);
+	Student S3("C", 34567899);
+	std::vector<std::string> expected {"A", "B", "C"};
+
+	tree.insert(S3);
+	tree.insert(S2);
+	tree.insert(S1);
+	REQUIRE(tree.inorder() == expected);
+}
+
+TEST_CASE("RR case", "[rotate left]") {
+
+	// L rotate
+	AVL tree;
+	Student S1("A", 12345678);
+	Student S2("B", 23456789);
+	Student S3("C", 34567899);
+	std::vector<std::string> expected {"A", "B", "C"};
+
+	tree.insert(S1);
+	tree.insert(S2);
+	tree.insert(S3);
+	REQUIRE(tree.inorder() == expected);
+}
+
+TEST_CASE("LR case", "[rotate right left]") {
+
+	// LR rotate
+	AVL tree;
+	Student S1("A", 12345678);
+	Student S2("B", 23456789);
+	Student S3("C", 34567899);
+	std::vector<std::string> expected {"A", "B", "C"};
+
+	tree.insert(S3);
+	tree.insert(S1);
+	tree.insert(S2);
+	REQUIRE(tree.inorder() == expected);
+}
+
+TEST_CASE("RL case", "[rotate right left]") {
+
+	// R rotate
+	AVL tree;
+	Student S1("A", 12345678);
+	Student S2("B", 23456789);
+	Student S3("C", 34567899);
+	std::vector<std::string> expected {"A", "B", "C"};
+
+	tree.insert(S1);
+	tree.insert(S3);
+	tree.insert(S2);
+	REQUIRE(tree.inorder() == expected);
+}
+
+
+TEST_CASE("Insert 100, remove 10", "[InsRem]") {
+
+}
 
 
 
