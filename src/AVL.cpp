@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-void AVL::insert(std::string name, int UFID) {
+void AVL::insert(std::string name, std::string UFID) {
 }
 
 std::vector<std::string> AVL::inorder() const {
@@ -15,6 +15,6 @@ std::vector<std::string> AVL::inorder() const {
     return inorder;
 }
 
-bool AVL::remove(int UFID) {
+bool AVL::remove(std::string UFID) {
     return true;
 }

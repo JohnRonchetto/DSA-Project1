@@ -1,13 +1,14 @@
 #include <catch2/catch_all.hpp>
 #include <iostream>
+#include <string>
 
 #include "AVL.h"
 #include "helpers.h"
 
 using namespace std;
 
-// John Ronchetto
-// 52490540
+// My name: John Ronchetto
+// My UFID: 52490540
 
 
 TEST_CASE("Validate commands", "[Input]") {
@@ -40,7 +41,7 @@ TEST_CASE("Insert test", "[Insert]") {
 	// Student s("John" , 12345678);
 	vector<std::string> expected {"John"};
 
-	tree.insert("John", 12345678);
+	tree.insert("John", "12345678");
 
 	vector<std::string> inTree = tree.inorder();
 	REQUIRE(inTree == expected);
@@ -52,9 +53,9 @@ TEST_CASE("LL case", "[rotate right]") {
 	AVL tree;
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert("C", 34567899);
-	tree.insert("B", 23456789);
-	tree.insert("A", 12345678);
+	tree.insert("C", "34567899");
+	tree.insert("B", "23456789");
+	tree.insert("A", "12345678");
 
 	REQUIRE(tree.inorder() == expected);
 }
@@ -65,9 +66,9 @@ TEST_CASE("RR case", "[rotate left]") {
 	AVL tree;
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert("A", 12345678);
-	tree.insert("B", 23456789);
-	tree.insert("C", 34567899);
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "34567899");
 
 	REQUIRE(tree.inorder() == expected);
 }
@@ -78,9 +79,9 @@ TEST_CASE("LR case", "[rotate right left]") {
 	AVL tree;
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert("C", 34567899);
-	tree.insert("A", 12345678);
-	tree.insert("B", 23456789);
+	tree.insert("C", "34567899");
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
 	REQUIRE(tree.inorder() == expected);
 }
 
@@ -90,9 +91,9 @@ TEST_CASE("RL case", "[rotate right left]") {
 	AVL tree;
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert("A", 12345678);
-	tree.insert("C", 34567899);
-	tree.insert("B", 23456789);
+	tree.insert("A", "12345678");
+	tree.insert("C", "34567899");
+	tree.insert("B", "23456789");
 	REQUIRE(tree.inorder() == expected);
 }
 
@@ -117,12 +118,12 @@ TEST_CASE("Insert 100, remove 10", "[InsRem]") {
 
 		id += 1;
 		expected.push_back(name);
-		tree.insert(name, id);
+		tree.insert(name, std::to_string(id));
 	}
 
 	// delete first 10
 	for (int i = 12345678; i < 12345688; i++) {
-		REQUIRE(tree.remove(i) == true);
+		REQUIRE(tree.remove(std::to_string(id)) == true);
 		expected.erase(expected.begin());
 	}
 

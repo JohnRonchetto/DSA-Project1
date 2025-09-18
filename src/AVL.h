@@ -32,13 +32,13 @@ public:
     ~AVL() = default;
 
     // this will insert, and rotate as needed
-    void insert(std::string name, int UFID);
+    void insert(std::string name, std::string UFID);
 
     // traversal
     std::vector<std::string> inorder() const;
 
     // remove by ID
-    bool remove(int UFID);
+    bool remove(std::string UFID);
 
 };
 
