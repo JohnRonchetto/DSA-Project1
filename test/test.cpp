@@ -6,6 +6,10 @@
 
 using namespace std;
 
+// John Ronchetto
+// 52490540
+
+
 TEST_CASE("Validate commands", "[Input]") {
 
 	// name has numbers
@@ -30,13 +34,13 @@ TEST_CASE("Validate commands", "[Input]") {
 	REQUIRE_FALSE(verifyCommand( "removeInorder john" ) );
 }
 
-TEST_CASE("Insert Object test", "[Insert]") {
+TEST_CASE("Insert test", "[Insert]") {
 
 	AVL tree;
-	Student s("John" , 12345678);
+	// Student s("John" , 12345678);
 	vector<std::string> expected {"John"};
 
-	tree.insert(s);
+	tree.insert("John", 12345678);
 
 	vector<std::string> inTree = tree.inorder();
 	REQUIRE(inTree == expected);
@@ -46,14 +50,12 @@ TEST_CASE("LL case", "[rotate right]") {
 
 	// R rotate
 	AVL tree;
-	Student S1("A", 12345678);
-	Student S2("B", 23456789);
-	Student S3("C", 34567899);
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert(S3);
-	tree.insert(S2);
-	tree.insert(S1);
+	tree.insert("C", 34567899);
+	tree.insert("B", 23456789);
+	tree.insert("A", 12345678);
+
 	REQUIRE(tree.inorder() == expected);
 }
 
@@ -61,14 +63,12 @@ TEST_CASE("RR case", "[rotate left]") {
 
 	// L rotate
 	AVL tree;
-	Student S1("A", 12345678);
-	Student S2("B", 23456789);
-	Student S3("C", 34567899);
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert(S1);
-	tree.insert(S2);
-	tree.insert(S3);
+	tree.insert("A", 12345678);
+	tree.insert("B", 23456789);
+	tree.insert("C", 34567899);
+
 	REQUIRE(tree.inorder() == expected);
 }
 
@@ -76,14 +76,11 @@ TEST_CASE("LR case", "[rotate right left]") {
 
 	// LR rotate
 	AVL tree;
-	Student S1("A", 12345678);
-	Student S2("B", 23456789);
-	Student S3("C", 34567899);
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert(S3);
-	tree.insert(S1);
-	tree.insert(S2);
+	tree.insert("C", 34567899);
+	tree.insert("A", 12345678);
+	tree.insert("B", 23456789);
 	REQUIRE(tree.inorder() == expected);
 }
 
@@ -91,36 +88,49 @@ TEST_CASE("RL case", "[rotate right left]") {
 
 	// R rotate
 	AVL tree;
-	Student S1("A", 12345678);
-	Student S2("B", 23456789);
-	Student S3("C", 34567899);
 	std::vector<std::string> expected {"A", "B", "C"};
 
-	tree.insert(S1);
-	tree.insert(S3);
-	tree.insert(S2);
+	tree.insert("A", 12345678);
+	tree.insert("C", 34567899);
+	tree.insert("B", 23456789);
 	REQUIRE(tree.inorder() == expected);
 }
 
 
 TEST_CASE("Insert 100, remove 10", "[InsRem]") {
+	AVL tree;
+	std::string name;
+	std::vector<std::string> expected, actual;
 
+	int id = 12345678;
+
+	for (int i = 0; i < 100; i++) {
+
+		int repeat = (i / 26) + 1;
+		char letter = 'A' + (i % 26);
+
+		// "A","B",...,"Z","AA","BB",...
+		name = "";
+		for (int j = 0; j < repeat; j++) {
+			name += letter;
+		}
+
+		id += 1;
+		expected.push_back(name);
+		tree.insert(name, id);
+	}
+
+	// delete first 10
+	for (int i = 12345678; i < 12345688; i++) {
+		REQUIRE(tree.remove(i) == true);
+		expected.erase(expected.begin());
+	}
+
+	actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 
 
-
-
-// you must write 5 unique, meaningful tests for credit on the testing portion of this project!
-// the provided test from the template is below.
-
-// TEST_CASE("Example BST Insert", "[flag]"){
-// 		AVL tree;
-// 		tree.insert(3);
-// 		tree.insert(2);
-// 		tree.insert(1);
-// 		std::vector<int> actualOutput = tree.inorder();
-// 		std::vector<int> expectedOutput = {1, 2, 3};
-// 		REQUIRE(expectedOutput.size() == actualOutput.size());
-// 		REQUIRE(actualOutput == expectedOutput);
-// }
