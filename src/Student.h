@@ -9,21 +9,18 @@
 
 class Student {
 private:
-    std::string UFID;
+    std::string id;
     std::string name;
 public:
     // constructors
-    Student() : UFID(""), name("") {}
-    Student(const std::string& n, std::string id)
-        : UFID(id), name(n) {}
+    Student() : id(""), name("") {}
+    Student(const std::string& n, std::string ID)
+        : id(ID), name(n) {}
 
     // Getters
-    std::string getUFID() const { return UFID; }
+    std::string getId() const { return id; }
     std::string getName() const { return name; }
 
-    // Setters
-    void setUFID(std::string id) { UFID = id; }
-    void setName(const std::string& n) { name = n; }
 
 };
 

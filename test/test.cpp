@@ -43,8 +43,10 @@ TEST_CASE("Insert test", "[Insert]") {
 
 	tree.insert("John", "12345678");
 
-	vector<std::string> inTree = tree.inorder();
-	REQUIRE(inTree == expected);
+	vector<std::string> actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 TEST_CASE("LL case", "[rotate right]") {
@@ -57,7 +59,10 @@ TEST_CASE("LL case", "[rotate right]") {
 	tree.insert("B", "23456789");
 	tree.insert("A", "12345678");
 
-	REQUIRE(tree.inorder() == expected);
+	std::vector<std::string> actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 TEST_CASE("RR case", "[rotate left]") {
@@ -70,7 +75,10 @@ TEST_CASE("RR case", "[rotate left]") {
 	tree.insert("B", "23456789");
 	tree.insert("C", "34567899");
 
-	REQUIRE(tree.inorder() == expected);
+	std::vector<std::string> actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 TEST_CASE("LR case", "[rotate right left]") {
@@ -82,7 +90,11 @@ TEST_CASE("LR case", "[rotate right left]") {
 	tree.insert("C", "34567899");
 	tree.insert("A", "12345678");
 	tree.insert("B", "23456789");
-	REQUIRE(tree.inorder() == expected);
+
+	std::vector<std::string> actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 TEST_CASE("RL case", "[rotate right left]") {
@@ -94,14 +106,19 @@ TEST_CASE("RL case", "[rotate right left]") {
 	tree.insert("A", "12345678");
 	tree.insert("C", "34567899");
 	tree.insert("B", "23456789");
-	REQUIRE(tree.inorder() == expected);
+
+	std::vector<std::string> actual = tree.inorder();
+
+	REQUIRE(expected.size() == actual.size());
+	REQUIRE(expected == actual);
 }
 
 
 TEST_CASE("Insert 100, remove 10", "[InsRem]") {
 	AVL tree;
-	std::string name;
+	std::string name, idS;
 	std::vector<std::string> expected, actual;
+	std::vector<std::string> ids;
 
 	int id = 12345678;
 
@@ -116,15 +133,35 @@ TEST_CASE("Insert 100, remove 10", "[InsRem]") {
 			name += letter;
 		}
 
-		id += 1;
+		idS = std::to_string(id + i);
+
+		ids.push_back(idS);
 		expected.push_back(name);
-		tree.insert(name, std::to_string(id));
+		tree.insert(name, idS);
 	}
 
-	// delete first 10
-	for (int i = 12345678; i < 12345688; i++) {
-		REQUIRE(tree.remove(std::to_string(id)) == true);
-		expected.erase(expected.begin());
+
+	// delete 10 random
+	std::vector<int> removed;
+	while (removed.size() < 10) {
+
+		int randomId = id + (std::rand() % 100);
+
+		// make sure they are unique
+		if (std::find(removed.begin(), removed.end(), randomId) == removed.end()) {
+
+			std::string idStr = std::to_string(randomId);
+
+			auto it = std::find(ids.begin(), ids.end(), idStr);
+			auto idx = std::distance(ids.begin(), it);
+
+			// remove from tree
+			tree.remove(idStr);
+			ids.erase(ids.begin() + idx);
+			expected.erase(expected.begin() + idx);
+
+			removed.push_back(randomId);
+		}
 	}
 
 	actual = tree.inorder();

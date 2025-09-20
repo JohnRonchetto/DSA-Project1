@@ -15,6 +15,7 @@ string verifyNextWord(istringstream& in) {
 	string word;
 	in >> word;
 
+	// not good -> use regex!
 	if (word.length() > 20) {
 		return "";
 	}
@@ -32,27 +33,36 @@ string verifyNextWord(istringstream& in) {
 
 int main(){
 
-	// read line of input
-	string line;
-	cout << "Enter valid words: " << endl;
-	getline(cin, line);
+	AVL myTree;
 
-	// create input stram form line
-	istringstream in(line);
+	myTree.insert("a", "1");
+	myTree.insert("b", "2");
+	myTree.insert("c", "3");
+	myTree.insert("d", "4");
 
-	// verify that each word is valid
-	while (in) {
-		string word = verifyNextWord(in);
-		if (word == "") {
-			cout << "Unsuccessful input." << endl;
-		} else {
-			cout << word << endl;
-		}
-	}
 
-	// read up to the next quotation mark
-	//string next;
-	//getline(in, next, '"');
+
+	// // read line of input
+	// string line;
+	// cout << "Enter valid words: " << endl;
+	// getline(cin, line);
+	//
+	// // create input stram form line
+	// istringstream in(line);
+	//
+	// // verify that each word is valid
+	// while (in) {
+	// 	string word = verifyNextWord(in);
+	// 	if (word == "") {
+	// 		cout << "Unsuccessful input." << endl;
+	// 	} else {
+	// 		cout << word << endl;
+	// 	}
+	// }
+	//
+	// // read up to the next quotation mark
+	// //string next;
+	// //getline(in, next, '"');
 
 	return 0;
 }

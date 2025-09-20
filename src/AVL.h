@@ -15,30 +15,44 @@ private:
         Node* right;
         int height;
 
-        Node(const Student& s): data(s), left(nullptr), right(nullptr), height(0) {}
+        // node constructor;
+        Node(const Student& s): data(s), left(nullptr), right(nullptr), height(1) {}
     };
 
     Node* root = nullptr;
 
     // rotations
-    Node* rotateRight(Node* x);     // LL case
-    Node* rotateLeft(Node* x);      // RR case
-    Node* rotateLeftRight(Node* x); // LR case
-    Node* rotateRightLeft(Node* x); // RL case
+    Node* rotateRight(Node* n);     // LL case
+    Node* rotateLeft(Node* n);      // RR case
+    Node* rotateLeftRight(Node* n); // LR case
+    Node* rotateRightLeft(Node* n); // RL case
+
+    // insert helper
+    Node* helperInsert(Node* helpRoot, std::string name, std::string id);
+
+    //
+    void setHeight(Node* n);
+    int getHeight(Node* n);
+
+
+    int getBalance(Node* n);
 
 public:
     // add later
     AVL() = default;
     ~AVL() = default;
 
-    // this will insert, and rotate as needed
-    void insert(std::string name, std::string UFID);
+    // Inserts and rotates
+    void insert(std::string name, std::string id);
+
+    std::string search(std::string id);
+
 
     // traversal
     std::vector<std::string> inorder() const;
 
     // remove by ID
-    bool remove(std::string UFID);
+    bool remove(std::string id);
 
 };
 
