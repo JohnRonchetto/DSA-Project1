@@ -39,6 +39,7 @@ int main(){
 	myTree.insert("b", "2");
 	myTree.insert("c", "3");
 	myTree.insert("d", "4");
+	myTree.remove("e", "5");
 
 
 

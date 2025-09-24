@@ -27,32 +27,37 @@ private:
     Node* rotateLeftRight(Node* n); // LR case
     Node* rotateRightLeft(Node* n); // RL case
 
-    // insert helper
-    Node* helperInsert(Node* helpRoot, std::string name, std::string id);
+    // actually inserts and rotates as needed
+    Node* helperInsert(Node* helpRoot, const std::string& name, const std::string& id);
+    // actually removes (also rotates)
+    Node* helperRemove(Node* helpRoot, const std::string& id);
+    // search node with id
+    Node* helperSearch(const std::string& id) const;
 
-    //
-    void setHeight(Node* n);
-    int getHeight(Node* n);
+    // helper functions
+    void setHeight(Node* n);    // 1 based index
+    static int getHeight(Node* n);
+    static int getBalance(Node* n);    // (left - right) height
+    static Node* leftmost(Node* n);    // for inorder successor
 
-
-    int getBalance(Node* n);
 
 public:
     // add later
     AVL() = default;
     ~AVL() = default;
 
-    // Inserts and rotates
-    void insert(std::string name, std::string id);
+    // Inserts and prints successful/unsuccessful
+    void insert(const std::string& name, const std::string& id);
 
-    std::string search(std::string id);
+    // removes and prints successful/unsuccessful
+    void remove(const std::string& id);
 
+    // search by ID and prints successful/unsuccessful
+    void search(const std::string& id);
 
     // traversal
     std::vector<std::string> inorder() const;
 
-    // remove by ID
-    bool remove(std::string id);
 
 };
 
