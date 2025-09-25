@@ -62,7 +62,7 @@ public:
     // removes and prints successful/unsuccessful
     void remove(const std::string& id);
     // search by ID and prints successful/unsuccessful
-    void search(const std::string& id);
+    void searchID(const std::string& id);
 
     // main print methods
     void printInorder()  const;
@@ -73,6 +73,10 @@ public:
     std::vector<std::string> inorder()   const;
     std::vector<std::string> preorder()  const;
     std::vector<std::string> postorder() const;
+
+    void searchName(const std::string& name);
+    void printLevelCount() const;
+    void removeInorder(int N);
 
 
 

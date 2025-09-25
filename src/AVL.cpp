@@ -139,8 +139,8 @@ void AVL::preorderH(Node* n, std::vector<std::string>& v) const {
     }
 
     v.push_back(n->data.getName());
-    inorderH(n->left, v);
-    inorderH(n->right, v);
+    preorderH(n->left, v);
+    preorderH(n->right, v);
 }
 
 void AVL::postorderH(Node* n, std::vector<std::string>& v) const {
@@ -148,8 +148,8 @@ void AVL::postorderH(Node* n, std::vector<std::string>& v) const {
         return;
     }
 
-    inorderH(n->left, v);
-    inorderH(n->right, v);
+    postorderH(n->left, v);
+    postorderH(n->right, v);
     v.push_back(n->data.getName());
 }
 
@@ -329,7 +329,7 @@ AVL::Node * AVL::helperSearch(const std::string &id) const {
     return nullptr;
 }
 
-void AVL::search(const std::string& id) {
+void AVL::searchID(const std::string& id) {
     Node* n = helperSearch(id);
 
     if (n != nullptr) {
