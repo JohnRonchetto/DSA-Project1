@@ -8,7 +8,7 @@
 
 // Rotations
 // LL case
-AVL::Node * AVL::rotateRight(Node *n) {
+AVL::Node * AVL::rotateRight(Node* n) {
 
     // (Should not happen)
     if (n == nullptr) {
@@ -33,7 +33,7 @@ AVL::Node * AVL::rotateRight(Node *n) {
 }
 
 // RR case
-AVL::Node * AVL::rotateLeft(Node *n) {
+AVL::Node * AVL::rotateLeft(Node* n) {
 
     // (should not happen)
     if (n == nullptr) {
@@ -57,7 +57,7 @@ AVL::Node * AVL::rotateLeft(Node *n) {
 }
 
 // LR case
-AVL::Node * AVL::rotateLeftRight(Node *n) {
+AVL::Node * AVL::rotateLeftRight(Node* n) {
 
     if (n == nullptr) {
         return n;
@@ -68,7 +68,7 @@ AVL::Node * AVL::rotateLeftRight(Node *n) {
 }
 
 // RL case
-AVL::Node * AVL::rotateRightLeft(Node *n) {
+AVL::Node * AVL::rotateRightLeft(Node* n) {
 
     if (n == nullptr) {
         return n;
@@ -80,7 +80,7 @@ AVL::Node * AVL::rotateRightLeft(Node *n) {
 
 
 // Helper functions for main methods
-void AVL::setHeight(Node *n) {
+void AVL::setHeight(Node* n) {
     if (n != nullptr) {
 
         int leftHeight = getHeight(n->left);
@@ -94,7 +94,7 @@ void AVL::setHeight(Node *n) {
     }
 }
 
-int AVL::getHeight(Node *n) {
+int AVL::getHeight(Node* n) {
     if (n == nullptr) {
         return 0;
     } else {
@@ -103,7 +103,7 @@ int AVL::getHeight(Node *n) {
 
 }
 
-int AVL::getBalance(Node *n) {
+int AVL::getBalance(Node* n) {
     if (n == nullptr) {
         return 0;
     } else {
@@ -111,7 +111,7 @@ int AVL::getBalance(Node *n) {
     }
 }
 
-AVL::Node * AVL::leftmost(Node *n) {
+AVL::Node * AVL::leftmost(Node* n) {
     if (n == nullptr) {
         return nullptr;
     }
@@ -123,9 +123,58 @@ AVL::Node * AVL::leftmost(Node *n) {
     return n;
 }
 
+void AVL::inorderH(Node* n, std::vector<std::string>& v) const {
+    if (n == nullptr) {
+        return;
+    }
+
+    inorderH(n->left, v);
+    v.push_back(n->data.getName());
+    inorderH(n->right, v);
+}
+
+void AVL::preorderH(Node* n, std::vector<std::string>& v) const {
+    if (n == nullptr) {
+        return;
+    }
+
+    v.push_back(n->data.getName());
+    inorderH(n->left, v);
+    inorderH(n->right, v);
+}
+
+void AVL::postorderH(Node* n, std::vector<std::string>& v) const {
+    if (n == nullptr) {
+        return;
+    }
+
+    inorderH(n->left, v);
+    inorderH(n->right, v);
+    v.push_back(n->data.getName());
+}
+
+void AVL::printH(const std::vector<std::string>& v) {
+    for (std::size_t i = 0; i < v.size(); i++) {
+        std::cout << v[i];
+        if (i + 1 < v.size()) {
+            std::cout << ", ";
+        }
+    }
+    std::cout << std::endl;
+}
+
+
+void AVL::destroy(Node* n) {
+    if (n != nullptr) {
+        destroy(n->left);
+        destroy(n->right);
+        delete n;
+    }
+}
+
 
 // INSERT
-AVL::Node* AVL::helperInsert(Node *helpRoot, const std::string& name, const std::string& id) {
+AVL::Node* AVL::helperInsert(Node* helpRoot, const std::string& name, const std::string& id) {
 
     // Insertion by recursion
     if (helpRoot == nullptr) {
@@ -180,15 +229,15 @@ void AVL::insert(const std::string& name, const std::string& id) {
 
 
 // REMOVE
-AVL::Node * AVL::helperRemove(Node *helpRoot, const std::string &id) {
+AVL::Node * AVL::helperRemove(Node* helpRoot, const std::string &id) {
     if (helpRoot == nullptr) {
         return nullptr;
     }
 
     if (id < helpRoot->data.getId()) {
-        helpRoot = helperRemove(helpRoot->left, id);
+        helpRoot->left = helperRemove(helpRoot->left, id);
     } else if (id > helpRoot->data.getId()) {
-        helpRoot = helperRemove(helpRoot->right, id);
+        helpRoot->right = helperRemove(helpRoot->right, id);
     } else {
         // node to remove found
         // 4 cases: 0, 1l, 1r, or 2 child
@@ -291,11 +340,39 @@ void AVL::search(const std::string& id) {
 }
 
 
-
-std::vector<std::string> AVL::inorder() const {
-    std::vector<std::string> inorder {"A", "B", "C"};
-
-    return inorder;
+void AVL::printInorder() const {
+    printH(inorder());
 }
 
+void AVL::printPreorder() const {
+    printH(preorder());
+}
+
+void AVL::printPostorder() const {
+    printH(postorder());
+}
+
+std::vector<std::string> AVL::inorder() const {
+    std::vector<std::string> names;
+    inorderH(root, names);
+    return names;
+}
+
+std::vector<std::string> AVL::preorder() const {
+    std::vector<std::string> names;
+    preorderH(root, names);
+    return names;
+}
+
+std::vector<std::string> AVL::postorder() const {
+    std::vector<std::string> names;
+    postorderH(root, names);
+    return names;
+}
+
+
+// destructor
+AVL::~AVL() {
+    destroy(root);
+}
 

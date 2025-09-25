@@ -33,15 +33,17 @@ string verifyNextWord(istringstream& in) {
 
 int main(){
 
-	AVL myTree;
+	AVL tree;
 
-	myTree.insert("a", "1");
-	myTree.insert("b", "2");
-	myTree.insert("c", "3");
-	myTree.insert("d", "4");
-	myTree.remove("e", "5");
+	tree.insert("Alice", "12345678");
+	tree.insert("Bob",   "22345678");
+	tree.insert("Carol", "32345678");
+	tree.insert("Dave",  "42345678");
+	tree.insert("Eve",   "52345678");
 
+	tree.remove("32345678");
 
+	tree.printInorder();
 
 	// // read line of input
 	// string line;

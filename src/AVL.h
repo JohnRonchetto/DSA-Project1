@@ -35,28 +35,45 @@ private:
     Node* helperSearch(const std::string& id) const;
 
     // helper functions
-    void setHeight(Node* n);    // 1 based index
+    void setHeight(Node* n);           // 1 based index
     static int getHeight(Node* n);
     static int getBalance(Node* n);    // (left - right) height
     static Node* leftmost(Node* n);    // for inorder successor
 
+    // helpers for traversal
+    void inorderH(Node* n, std::vector<std::string>& v)   const;
+    void preorderH(Node* n, std::vector<std::string>& v)  const;
+    void postorderH(Node* n, std::vector<std::string>& v) const;
+    // print helper
+    static void printH(const std::vector<std::string>& v);
+
+
+    void destroy(Node* n);             // recursive function for destructor
+
+
 
 public:
-    // add later
-    AVL() = default;
-    ~AVL() = default;
+
+    AVL() : root(nullptr) {}
+    ~AVL();
 
     // Inserts and prints successful/unsuccessful
     void insert(const std::string& name, const std::string& id);
-
     // removes and prints successful/unsuccessful
     void remove(const std::string& id);
-
     // search by ID and prints successful/unsuccessful
     void search(const std::string& id);
 
-    // traversal
-    std::vector<std::string> inorder() const;
+    // main print methods
+    void printInorder()  const;
+    void printPreorder() const;
+    void printPostorder() const;
+
+    // traversals for testing
+    std::vector<std::string> inorder()   const;
+    std::vector<std::string> preorder()  const;
+    std::vector<std::string> postorder() const;
+
 
 
 };
