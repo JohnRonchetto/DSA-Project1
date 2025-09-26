@@ -35,15 +35,24 @@ int main(){
 
 	AVL tree;
 
-	tree.insert("Alice", "12345678");
-	tree.insert("Bob",   "22345678");
-	tree.insert("Carol", "32345678");
-	tree.insert("Dave",  "42345678");
-	tree.insert("Eve",   "52345678");
-
-	tree.remove("32345678");
+	tree.insert("a", "11");
+	tree.insert("b", "23");
+	tree.insert("c", "33");
+	tree.insert("d", "22");
+	tree.insert("e", "55");
+	tree.insert("a", "66");
+	tree.insert("a", "89");
+	tree.insert("f", "88");
 
 	tree.printInorder();
+
+	tree.removeInorder(4);
+	tree.printInorder();
+
+	tree.removeInorder(7);
+	tree.printInorder();
+
+
 
 	// // read line of input
 	// string line;

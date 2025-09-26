@@ -163,6 +163,19 @@ void AVL::printH(const std::vector<std::string>& v) {
     std::cout << std::endl;
 }
 
+void AVL::printNameH(Node *n, const std::string &name, std::vector<std::string> &v) const {
+    if (n == nullptr) {
+        return;
+    }
+
+    if (n->data.getName() == name) {
+        v.push_back(n->data.getId());
+    }
+
+    printNameH(n->left, name, v);
+    printNameH(n->right, name, v);
+}
+
 
 void AVL::destroy(Node* n) {
     if (n != nullptr) {
@@ -368,6 +381,70 @@ std::vector<std::string> AVL::postorder() const {
     std::vector<std::string> names;
     postorderH(root, names);
     return names;
+}
+
+void AVL::searchName(const std::string &name) {
+    std::vector<std::string> v;
+    printNameH(root, name, v);
+
+    if (v.empty()) {
+        std::cout << "unsuccessful" << std::endl;
+    } else {
+        for (const auto& id : v) {
+            std::cout << id << std::endl;
+        }
+    }
+}
+
+void AVL::printLevelCount() const {
+    if (root == nullptr) {
+        std::cout << "0" << std::endl;
+    } else {
+        std::cout << root->height << std::endl;
+    }
+}
+
+void AVL::removeInorder(int N) {
+    if (N < 0) {
+        std::cout << "unsuccessful" << std::endl;
+        return;
+    }
+
+    std::stack<Node*> stk;
+    Node* current = root;
+    int x = N;
+    std::string id;
+    bool found = false;
+
+    while (current != nullptr || !stk.empty()) {
+        while (current != nullptr) {
+            stk.push(current);
+            current = current->left;
+        }
+
+        current = stk.top();
+        stk.pop();
+
+        if (x == 0) {
+            id = current->data.getId();
+            found = true;
+            break;
+        } else {
+            x -= 1;
+        }
+
+        current = current->right;
+    }
+
+
+    if (!found) {
+        std::cout << "unsuccessful" << std::endl;
+        return;
+    }
+
+
+    remove(id);
+
 }
 
 

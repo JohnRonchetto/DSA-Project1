@@ -5,6 +5,7 @@
 #include "Student.h"
 #include <string>
 #include <vector>
+#include <stack>
 
 
 class AVL {
@@ -44,8 +45,10 @@ private:
     void inorderH(Node* n, std::vector<std::string>& v)   const;
     void preorderH(Node* n, std::vector<std::string>& v)  const;
     void postorderH(Node* n, std::vector<std::string>& v) const;
-    // print helper
+    // print helper for searchID
     static void printH(const std::vector<std::string>& v);
+    // pre-order print by name getter/helper for searchName
+    void printNameH(Node* n, const std::string& name, std::vector<std::string>& v) const;
 
 
     void destroy(Node* n);             // recursive function for destructor
@@ -75,6 +78,7 @@ public:
     std::vector<std::string> postorder() const;
 
     void searchName(const std::string& name);
+
     void printLevelCount() const;
     void removeInorder(int N);
 
