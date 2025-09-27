@@ -1,55 +1,91 @@
 #include <catch2/catch_all.hpp>
 #include <iostream>
-#include <string>
 
 #include "AVL.h"
 #include "helpers.h"
 
-using namespace std;
 
 // My name: John Ronchetto
 // My UFID: 52490540
 
 
+// Incorrect commands
 TEST_CASE("Validate commands", "[Input]") {
+	AVL tree;
 
-	// name has numbers
-	REQUIRE_FALSE(verifyCommand(R"(insert john123 12345678)"));
+
+	// name is empty with spaces
+	REQUIRE_FALSE(verifyCommand( R"(insert "    " 12312312)", tree ));
 	// name has special characters
-	REQUIRE_FALSE(verifyCommand( R"(insert "John@#" 12312312)" ));
-	// name is empty
-	REQUIRE_FALSE(verifyCommand( R"(insert "" 34534534)" ));
-	// UFID more than 8 digits
-	REQUIRE_FALSE(verifyCommand( R"(insert "John" 123456789)" ) );
-	// UFID less than 8 digits
-	REQUIRE_FALSE(verifyCommand( R"(insert "John" 1234567)" ) );
-	// UFID is empty
-	REQUIRE_FALSE(verifyCommand( R"(insert "John" 1234567)" ) );
+	REQUIRE_FALSE(verifyCommand( R"(insert "John@#" 12312312)", tree ));
+	// ID is 7 digits
+	REQUIRE_FALSE(verifyCommand( R"(remove 1234567)", tree));
+	// not an ID
+	REQUIRE_FALSE(verifyCommand( R"(remove AB12)", tree));
+	// misspelled search
+	REQUIRE_FALSE(verifyCommand( R"(serch 12345678)", tree));
+	// negative Nth gatorID
+	REQUIRE_FALSE(verifyCommand( R"(removeInorder -12)", tree));
 
-	// need to add more here
-	// id missing after remove
-	REQUIRE_FALSE(verifyCommand( "remove" ) );
-	// name instead of id after remove
-	REQUIRE_FALSE(verifyCommand( "remove john" ) );
-	// name instead of inorder index after removeInorder
-	REQUIRE_FALSE(verifyCommand( "removeInorder john" ) );
+
 }
 
-TEST_CASE("Insert test", "[Insert]") {
+// Edge cases
+TEST_CASE("RemoveInorder edge", "[Edge]") {
 
 	AVL tree;
-	// Student s("John" , 12345678);
-	vector<std::string> expected {"John"};
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "11112222");
 
-	tree.insert("John", "12345678");
+	// unsuccessful - not enough nodes
+	tree.removeInorder(3);
 
-	vector<std::string> actual = tree.inorder();
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"C", "A", "B"};
 
-	REQUIRE(expected.size() == actual.size());
-	REQUIRE(expected == actual);
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+
 }
 
-TEST_CASE("LL case", "[rotate right]") {
+TEST_CASE("Remove edge", "[Edge]") {
+
+	AVL tree;
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "11112222");
+
+	// unsuccessful -  does not exist
+	tree.remove("99999999");
+
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"C", "A", "B"};
+
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+
+}
+
+TEST_CASE("Insert duplicate ID", "[Edge]") {
+	AVL tree;
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "11112222");
+
+	// unsuccessful - ID already exists
+	tree.insert("Johnny", "12345678");
+
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"C", "A", "B"};
+
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+
+}
+
+// Rotations
+TEST_CASE("LL case", "[rotate]") {
 
 	// R rotate
 	AVL tree;
@@ -65,7 +101,7 @@ TEST_CASE("LL case", "[rotate right]") {
 	REQUIRE(expected == actual);
 }
 
-TEST_CASE("RR case", "[rotate left]") {
+TEST_CASE("RR case", "[rotate]") {
 
 	// L rotate
 	AVL tree;
@@ -81,7 +117,7 @@ TEST_CASE("RR case", "[rotate left]") {
 	REQUIRE(expected == actual);
 }
 
-TEST_CASE("LR case", "[rotate right left]") {
+TEST_CASE("LR case", "[rotate]") {
 
 	// LR rotate
 	AVL tree;
@@ -97,7 +133,7 @@ TEST_CASE("LR case", "[rotate right left]") {
 	REQUIRE(expected == actual);
 }
 
-TEST_CASE("RL case", "[rotate right left]") {
+TEST_CASE("RL case", "[rotate]") {
 
 	// R rotate
 	AVL tree;
@@ -113,7 +149,58 @@ TEST_CASE("RL case", "[rotate right left]") {
 	REQUIRE(expected == actual);
 }
 
+// Deletion cases
+TEST_CASE("remove - 0 child", "[remove]") {
+	AVL tree;
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "34567890");
 
+	// Remove A -> 0 children
+	tree.remove("12345678");
+
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"B", "C"};
+
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("remove - 1 child", "[remove]") {
+	AVL tree;
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "34567890");
+	tree.insert("D", "45678912");
+
+	// Remove C -> 1 children
+	tree.remove("34567890");
+
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"A", "B", "D"};
+
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+
+}
+
+TEST_CASE("remove - 2 child", "[remove]") {
+	AVL tree;
+	tree.insert("A", "12345678");
+	tree.insert("B", "23456789");
+	tree.insert("C", "34567890");
+
+	// Remove B -> 2 children
+	tree.remove("23456789");
+
+	std::vector<std::string> actual = tree.inorder();
+	std::vector<std::string> expected = {"A", "C"};
+
+	REQUIRE(actual.size() == expected.size());
+	REQUIRE(actual == expected);
+}
+
+// insert 100 remove 10 random
 TEST_CASE("Insert 100, remove 10", "[InsRem]") {
 	AVL tree;
 	std::string name, idS;

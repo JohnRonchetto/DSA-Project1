@@ -50,8 +50,7 @@ private:
     // pre-order print by name getter/helper for searchName
     void printNameH(Node* n, const std::string& name, std::vector<std::string>& v) const;
 
-
-    void destroy(Node* n);             // recursive function for destructor
+    void destroy(Node* n); // recursive function for destructor
 
 
 

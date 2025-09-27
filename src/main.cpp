@@ -1,80 +1,28 @@
 #include <iostream>
-#include <sstream>
-#include <string>
+#include <limits>
 
 #include "AVL.h"
-
-// for now just virifyCommand() header
 #include "helpers.h"
-using namespace std;
-
-
-// probably have more like a verify command -> 3 arguments
-string verifyNextWord(istringstream& in) {
-
-	string word;
-	in >> word;
-
-	// not good -> use regex!
-	if (word.length() > 20) {
-		return "";
-	}
-
-	// make sure that each character is valid: a-z, A-Z, or 0-9
-	for (char c : word) {
-		if (!isalpha(c) && !isdigit(c)) {
-			return "";
-		}
-	}
-
-	return word;
-}
 
 
 int main(){
-
 	AVL tree;
 
-	tree.insert("a", "11");
-	tree.insert("b", "23");
-	tree.insert("c", "33");
-	tree.insert("d", "22");
-	tree.insert("e", "55");
-	tree.insert("a", "66");
-	tree.insert("a", "89");
-	tree.insert("f", "88");
+	int N;
+	if (!(std::cin >> N)) return 0;
 
-	tree.printInorder();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	tree.removeInorder(4);
-	tree.printInorder();
+	for (int i = 0; i < N; ++i) {
+		std::string line;
+		if (!std::getline(std::cin, line)) {
+			break;
+		}
 
-	tree.removeInorder(7);
-	tree.printInorder();
-
-
-
-	// // read line of input
-	// string line;
-	// cout << "Enter valid words: " << endl;
-	// getline(cin, line);
-	//
-	// // create input stram form line
-	// istringstream in(line);
-	//
-	// // verify that each word is valid
-	// while (in) {
-	// 	string word = verifyNextWord(in);
-	// 	if (word == "") {
-	// 		cout << "Unsuccessful input." << endl;
-	// 	} else {
-	// 		cout << word << endl;
-	// 	}
-	// }
-	//
-	// // read up to the next quotation mark
-	// //string next;
-	// //getline(in, next, '"');
+		if (!verifyCommand(line, tree)) {
+			std::cout << "unsuccessful" << std::endl;
+		}
+	}
 
 	return 0;
 }
