@@ -9,7 +9,9 @@ int main(){
 	AVL tree;
 
 	int N;
-	if (!(std::cin >> N)) return 0;
+	if (!(std::cin >> N)) {
+		return 0;
+	}
 
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 

@@ -53,7 +53,6 @@ private:
     void destroy(Node* n); // recursive function for destructor
 
 
-
 public:
 
     AVL() : root(nullptr) {}
@@ -80,8 +79,6 @@ public:
 
     void printLevelCount() const;
     void removeInorder(int N);
-
-
 
 };
 

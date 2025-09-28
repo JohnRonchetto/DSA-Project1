@@ -4,27 +4,16 @@
 #include <iostream>
 
 
-std::string trim(const std::string& s) {
-    // takes out spaces before and after
-    size_t a = s.find_first_not_of(" \t\r\n");
-    if (a == std::string::npos) {
-        return "";
-    }
-
-    size_t b = s.find_last_not_of(" \t\r\n");
-    return s.substr(a, b - a + 1);
-}
-
 std::string parseCommand(const std::string& command, std::string &name, std::string &id, int &nth) {
     name = "";
     id = "";
     nth = -1;
 
     // commands
-    const std::regex cInsert(R"RX(^\s*insert\s+"([A-Za-z ]+)"\s+(\d{8})\s*$)RX");
+    const std::regex cInsert(R"RX(^\s*insert\s+"([A-Za-z][A-Za-z ]*)"\s+(\d{8})\s*$)RX");
     const std::regex cRemove(R"RX(^\s*remove\s+(\d{8})\s*$)RX");
     const std::regex cSearchID(R"RX(^\s*search\s+(\d{8})\s*$)RX");
-    const std::regex cSearchName(R"RX(^\s*search\s+"([A-Za-z ]+)"\s*$)RX");
+    const std::regex cSearchName(R"RX(^\s*search\s+"([A-Za-z][A-Za-z ]*)"\s*$)RX");
     const std::regex cPrintInorder(R"RX(^\s*printInorder\s*$)RX");
     const std::regex cPrintPreorder(R"RX(^\s*printPreorder\s*$)RX");
     const std::regex cPrintPostorder(R"RX(^\s*printPostorder\s*$)RX");
@@ -34,10 +23,7 @@ std::string parseCommand(const std::string& command, std::string &name, std::str
     std::smatch m;
 
     if (std::regex_match(command, m, cInsert)) {
-        name = trim(m[1].str());
-        if (name.empty()) {
-            return "unsuccessful";
-        }
+        name = m[1].str();
         id = m[2].str();
         return "insert";
     }
@@ -51,10 +37,6 @@ std::string parseCommand(const std::string& command, std::string &name, std::str
     }
     if (std::regex_match(command, m, cSearchName)) {
         name = m[1].str();
-        if (name.empty()) {
-            return "unsuccessful";
-        }
-
         return "searchName";
     }
     if (std::regex_match(command, m, cPrintInorder)) {
@@ -78,7 +60,7 @@ std::string parseCommand(const std::string& command, std::string &name, std::str
             nth = static_cast<int>(k);
             return "removeInorder";
         } catch (...) {
-            return "unsuccessful"; // not convertible to long long
+            return "unsuccessful";
         }
     }
 
